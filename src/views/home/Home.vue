@@ -2,7 +2,7 @@
   <div class="home">
     <TopHome></TopHome>
     <NavHome :navList="cateList"></NavHome>
-    <SwiperHome :tabList="cateList"></SwiperHome>
+    <!-- <SwiperHome :tabList="cateList"></SwiperHome>
     <FreshThing></FreshThing>
     <HotGuess></HotGuess>
     <HotBrand></HotBrand>
@@ -10,7 +10,8 @@
     <GoodFood :goodList="goodList[1]" v-if="goodList"></GoodFood>
     <Cloth :goodList="goodList[2]" v-if="goodList"></Cloth>
     <MotherBaby :goodList="goodList[3]" v-if="goodList"></MotherBaby>
-    <NewSpecial></NewSpecial>
+    <NewSpecial></NewSpecial> -->
+    <router-view></router-view>
     <BottomShow></BottomShow>
     <div :class="{ mask: true, show: show }">
       <NavHome :navList="cateList"></NavHome>
@@ -19,19 +20,19 @@
 </template>
 <script>
 import TopHome from "./TopHome.vue";
-import SwiperHome from "./SwiperHome.vue";
+// import SwiperHome from "./SwiperHome.vue";
 import NavHome from "./NavHome.vue";
-import FreshThing from "./FreshThing.vue";
-import HotGuess from "./HotGuess.vue";
-import HotBrand from "./HotBrand.vue";
-import LivingHome from "./LivingHome.vue";
-import GoodFood from "./GoodFood.vue";
-import MotherBaby from "./MotherBaby.vue";
-import NewSpecial from "./NewSpecial.vue";
+// import FreshThing from "./FreshThing.vue";
+// import HotGuess from "./HotGuess.vue";
+// import HotBrand from "./HotBrand.vue";
+// import LivingHome from "./LivingHome.vue";
+// import GoodFood from "./GoodFood.vue";
+// import MotherBaby from "./MotherBaby.vue";
+// import NewSpecial from "./NewSpecial.vue";
 import BottomShow from "./BottomShow.vue";
-import Cloth from "./Cloth.vue";
+// import Cloth from "./Cloth.vue";
 import { Message } from "element-ui";
-import { getCategoryList, getGoodsList } from "../../api/home";
+import { getCategoryList } from "../../api/home";
 export default {
   data() {
     return {
@@ -43,7 +44,7 @@ export default {
   },
   mounted() {
     this.getCateList();
-    this.getGoods();
+    // this.getGoods();
     this.listen = window.addEventListener("scroll", this.getScrollY);
   },
   destroyed(){
@@ -72,30 +73,30 @@ export default {
         });
       }
     },
-    async getGoods() {
-      const { data } = await getGoodsList();
-      if (data.msg === "操作成功") {
-        this.goodList = data.result;
-      } else {
-        Message({
-          message: "获取分类详细信息失败",
-          type: "error",
-        });
-      }
-    },
+    // async getGoods() {
+    //   const { data } = await getGoodsList();
+    //   if (data.msg === "操作成功") {
+    //     this.goodList = data.result;
+    //   } else {
+    //     Message({
+    //       message: "获取分类详细信息失败",
+    //       type: "error",
+    //     });
+    //   }
+    // },
   },
   components: {
     TopHome,
-    SwiperHome,
+    // SwiperHome,
     NavHome,
-    FreshThing,
-    HotGuess,
-    HotBrand,
-    LivingHome,
-    GoodFood,
-    MotherBaby,
-    Cloth,
-    NewSpecial,
+    // FreshThing,
+    // HotGuess,
+    // HotBrand,
+    // LivingHome,
+    // GoodFood,
+    // MotherBaby,
+    // Cloth,
+    // NewSpecial,
     BottomShow,
   },
 };

@@ -24,9 +24,13 @@
           @mouseenter="setShowGoods(index)"
           @mouseleave="hideShowGoods"
         >
-          <span>{{ item.name }}</span>
+          <span @click="goCategory(item.id, item.name)">{{ item.name }}</span>
           <div class="title" v-for="(v, i) in item.children" :key="i">
-            <span v-if="i < 2">{{ v.name }}</span>
+            <span
+              v-if="i < 2"
+              @click="goDetailCategory(v.id, item.name, v.name)"
+              >{{ v.name }}</span
+            >
           </div>
         </div>
       </div>
@@ -57,30 +61,44 @@
 </template>
 
 <script>
-import { getBannerList} from "../../api/home"
+import { getBannerList } from "../../api/home";
 export default {
-  props:["tabList"],
+  props: ["tabList"],
   data() {
     return {
       active: 0,
       showGoods: -1,
       p1: null,
       p2: null,
-      autoplay:null,
-      bannerList:null
+      autoplay: null,
+      bannerList: null,
     };
   },
   mounted() {
     this.getBanner();
     this.autoplay = setInterval(() => {
-      this.right()
+      this.right();
     }, 3000);
   },
   methods: {
     setActive(item) {
       this.active = item;
     },
-    async getBanner(){
+    goCategory(i, name) {
+      localStorage.setItem(
+        "curmb",
+        JSON.stringify({ level1: name, level2: "", level3: "" })
+      );
+      this.$router.push("/category/" + i);
+    },
+    goDetailCategory(id, vname, iname) {
+      localStorage.setItem(
+        "curmb",
+        JSON.stringify({ level1: vname, level2: iname, level3: "" })
+      );
+      this.$router.push("/category/sub/" + id);
+    },
+    async getBanner() {
       const res = await getBannerList();
       this.bannerList = res.data.result;
     },
@@ -231,7 +249,7 @@ export default {
           background-color: #27ba9b;
         }
         > span {
-          font-size: 14px;
+          font-size: 16px;
           margin-right: 3px;
           vertical-align: top;
         }
@@ -239,7 +257,7 @@ export default {
           display: flex;
           margin-top: 2px;
           > span {
-            font-size: 15px;
+            font-size: 14px;
             &:first-child {
               margin-right: 5px;
             }

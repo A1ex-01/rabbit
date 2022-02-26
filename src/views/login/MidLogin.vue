@@ -96,7 +96,6 @@ export default {
     setActive(index) {
       this.active = index;
       if (index == 1) {
-        console.log(1);
         this.$notify({
           title: "Warning",
           message: "该功能只在手机上运行",

@@ -5,7 +5,7 @@ import qs from "qs"
 // 创建vue实例
 const ins = axios.create({
     timeout:"20000", // 超时取消
-    baseURL:""
+    baseURL:"http://localhost:8080/"
 });
 // axios拦截器
 ins.interceptors.request.use((config) => {

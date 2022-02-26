@@ -21,9 +21,9 @@
           </div>
         </div>
         <div class="bottom">
-          <span><i class="el-icon-s-tools"></i>{{ item.collectNum }}</span>
-          <span><i class="el-icon-s-tools"></i>{{ item.viewNum }}</span>
-          <span><i class="el-icon-s-tools"></i>{{ item.replyNum }}</span>
+          <span><i class="iconfont icon-xihuan"></i>{{ item.collectNum }}</span>
+          <span><i class="iconfont icon-icon-"></i>{{ item.viewNum }}</span>
+          <span><i class="iconfont icon-pinglun"></i>{{ item.replyNum }}</span>
         </div>
       </div>
     </div>
@@ -154,5 +154,8 @@ export default {
 .main {
   display: flex;
   justify-content: space-between;
+}
+.iconfont{
+  font-size: 16px;
 }
 </style>

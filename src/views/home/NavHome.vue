@@ -2,12 +2,13 @@
   <div class="nav" v-if="navList">
     <img src="../../assets/img/logo.png" alt="" />
     <ul class="list">
-      <li>首页</li>
+      <li @click="goHome">首页</li>
       <li
         v-for="(item, index) in navList"
         :key="index"
         @mouseenter="hoverNav(index)"
         @mouseleave="leaveNav()"
+        @click="goLevel1(item)"
       >
         {{ item.name }}
       </li>
@@ -28,7 +29,12 @@
       @mouseenter="hoverItem(active)"
       @mouseleave="leaveNav()"
     >
-      <div class="item" v-for="v in item.children" :key="v.id">
+      <div
+        class="item"
+        v-for="v in item.children"
+        :key="v.id"
+        @click="goLevel2(v)"
+      >
         <img :src="v.picture" alt="" />
         <span>{{ v.name }}</span>
       </div>
@@ -37,7 +43,7 @@
 </template>
 <script>
 export default {
-  props:["navList"],
+  props: ["navList"],
   data() {
     return {
       active: -1,
@@ -47,7 +53,6 @@ export default {
   },
   methods: {
     hoverNav(item) {
-      console.log(item);
       clearTimeout(this.p1);
       clearTimeout(this.p2);
       this.p1 = setTimeout(() => {
@@ -67,6 +72,22 @@ export default {
       clearTimeout(this.p1);
       clearTimeout(this.p2);
       this.active = item;
+    },
+    goHome() {
+      this.$router.push("/home");
+    },
+    goLevel1(item) {
+      localStorage.setItem(
+        "curmb",
+        JSON.stringify({ level1: item.name, level2: "",level3:"" })
+      );
+      this.$router.push("/category/" + item.id);
+    },
+    goLevel2(v) {
+      let data = JSON.parse(localStorage.getItem("curmb"));
+      data.level2 = v.name;
+      localStorage.setItem("curmb", JSON.stringify({...data,level3:""}));
+      this.$router.push("/category/sub/" + v.id);
     },
   },
 };
@@ -95,7 +116,6 @@ export default {
     display: flex;
     align-items: center;
     opacity: 0;
-    transition: all 0.5s;
 
     .item {
       width: 110px;
@@ -104,6 +124,7 @@ export default {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
       &:hover {
         color: #27ba9b;
       }
@@ -111,6 +132,7 @@ export default {
         width: 60px;
         height: 60px;
         margin-bottom: 10px;
+        display: none;
       }
       span {
         font-size: 14px;
@@ -120,7 +142,13 @@ export default {
   .checked {
     height: 132px;
     opacity: 1;
-    transition: all 0.5s;
+    transition: all .5s;
+    .item{
+      >img{
+        display: block;
+      }
+    }
+    // transition: height 0.5s;
   }
   > img {
     width: 200px;

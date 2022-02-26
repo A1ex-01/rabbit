@@ -21,6 +21,7 @@
         v-for="(item, index) in brandList"
         :key="item.id"
         :class="{ move: index == 0 && active == 1 }"
+        @click="goBrand"
       >
         <img :src="item.picture" alt="" />
       </div>
@@ -54,6 +55,12 @@ export default {
           type: "error",
         });
       }
+    },
+    goBrand(){
+      this.$notify({
+        title:"提示",
+        message:"暂未开放该功能！"
+      })
     },
     leftBtn() {
       if (this.active == 1) {

@@ -21,7 +21,7 @@ export default {
                     message: '登录成功',
                     type: 'success',
                 })
-                setCookie("token", res.data.result.token, 7)
+                setCookie("token", "Bearer "+res.data.result.token, 7)
                 setCookie("info", JSON.stringify(res.data.result), 7)
                 router.push("/home")
             } else {
