@@ -29,7 +29,9 @@ export default {
   },
   methods: {
     getCurmb() {
-      this.curmb = JSON.parse(localStorage.getItem("curmb"));
+      setTimeout(() => {
+        this.curmb = JSON.parse(localStorage.getItem("curmb"));
+      }, 1000);
     },
   },
 };

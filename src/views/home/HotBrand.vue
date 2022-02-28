@@ -57,6 +57,7 @@ export default {
       }
     },
     goBrand(){
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
       this.$notify({
         title:"提示",
         message:"暂未开放该功能！"

@@ -15,7 +15,7 @@
       <template #right> 查看全部<i class="el-icon-arrow-right"></i> </template>
     </HotGuess>
     <div class="goods">
-      <div class="goodsitem" v-for="item in hotList" :key="item.id">
+      <div class="goodsitem" v-for="item in hotList" :key="item.id" @click="warning">
         <img :src="item.picture" alt="" />
         <p>{{ item.title }}</p>
         <p>{{ item.alt }}</p>
@@ -50,6 +50,14 @@ export default {
         });
       }
     },
+    warning(){
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+      this.$notify({
+        message:"该功能暂未开放！",
+        title:"提示",
+        type:"info"
+      })
+    }
   },
   components: {
     HotGuess,

@@ -15,7 +15,7 @@
       <template #right> 查看全部<i class="el-icon-arrow-right"></i> </template>
     </HotTop>
     <div class="goods">
-      <div class="goodsitem" v-for="item in freshShow" :key="item.id">
+      <div class="goodsitem" v-for="item in freshShow" :key="item.id" @click="goGood(item.id)">
         <img :src="item.picture" alt="" />
         <p>{{ item.name }}</p>
         <p>￥{{ item.price }}</p>
@@ -58,6 +58,9 @@ export default {
         });
       }
     },
+    goGood(i){
+      this.$router.push("/product/"+i)
+    }
   },
   components: {
     HotTop,

@@ -18,8 +18,9 @@
       <div class="mask">
         <i class="el-icon-search"></i>
       </div>
+      <span>{{ count }}</span>
     </div>
-    <div class="shop">
+    <div class="shop" @click="goCart">
       <i class="el-icon-shopping-cart-2"></i>
     </div>
     <div
@@ -42,6 +43,8 @@
   </div>
 </template>
 <script>
+import { Message } from "element-ui";
+import { getCartCount } from "../../api/cart";
 export default {
   props: ["navList"],
   data() {
@@ -49,7 +52,11 @@ export default {
       active: -1,
       p1: null,
       p2: null,
+      count: 0,
     };
+  },
+  mounted() {
+    this.getCount();
   },
   methods: {
     hoverNav(item) {
@@ -59,6 +66,17 @@ export default {
         this.active = item;
         this.p1 = null;
       }, 200);
+    },
+    async getCount() {
+      const { data } = await getCartCount();
+      if (data.msg === "操作成功") {
+        this.count = data.result.count;
+      } else {
+        Message({
+          message: "获取商品数量失败",
+          type: "error",
+        });
+      }
     },
     leaveNav() {
       clearTimeout(this.p1);
@@ -73,20 +91,23 @@ export default {
       clearTimeout(this.p2);
       this.active = item;
     },
+    goCart(){
+      this.$router.push("/cart");
+    },
     goHome() {
       this.$router.push("/home");
     },
     goLevel1(item) {
       localStorage.setItem(
         "curmb",
-        JSON.stringify({ level1: item.name, level2: "",level3:"" })
+        JSON.stringify({ level1: item.name, level2: "", level3: "" })
       );
       this.$router.push("/category/" + item.id);
     },
     goLevel2(v) {
       let data = JSON.parse(localStorage.getItem("curmb"));
       data.level2 = v.name;
-      localStorage.setItem("curmb", JSON.stringify({...data,level3:""}));
+      localStorage.setItem("curmb", JSON.stringify({ ...data, level3: "" }));
       this.$router.push("/category/sub/" + v.id);
     },
   },
@@ -116,7 +137,6 @@ export default {
     display: flex;
     align-items: center;
     opacity: 0;
-
     .item {
       width: 110px;
       height: 0px;
@@ -142,9 +162,9 @@ export default {
   .checked {
     height: 132px;
     opacity: 1;
-    transition: all .5s;
-    .item{
-      >img{
+    transition: all 0.5s;
+    .item {
+      > img {
         display: block;
       }
     }
@@ -170,6 +190,16 @@ export default {
   .search {
     border-bottom: 1px solid #f5f5f5;
     position: relative;
+    > span {
+      position: absolute;
+      right: -42px;
+      top: -4px;
+      border-radius: 10px;
+      background-color: #e26237;
+      padding: 1px 6px;
+      font-size: 10px;
+      color: white;
+    }
     .mask {
       position: absolute;
       left: 0;

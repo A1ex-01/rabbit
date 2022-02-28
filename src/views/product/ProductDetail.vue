@@ -28,18 +28,22 @@
         <span>24小时热销榜</span>
       </div>
       <div class="hotitem">
-        <div v-for="item in hotList" :key="item.id">
+        <div v-for="item in hotList" :key="item.id" @click="goProduct(item.id)">
           <img :src="item.picture" alt="" />
           <p>{{ item.name }}</p>
           <p>{{ item.desc }}</p>
           <p>￥{{ item.price }}</p>
         </div>
       </div>
-            <div class="hot">
+      <div class="hot">
         <span>周热销榜</span>
       </div>
       <div class="hotitem">
-        <div v-for="item in hotListByWeek" :key="item.id">
+        <div
+          v-for="item in hotListByWeek"
+          :key="item.id"
+          @click="goProduct(item.id)"
+        >
           <img :src="item.picture" alt="" />
           <p>{{ item.name }}</p>
           <p>{{ item.desc }}</p>
@@ -51,43 +55,46 @@
 </template>
 
 <script>
-import { Message } from 'element-ui';
-import { getHotGood } from "../../api/good"
+import { Message } from "element-ui";
+import { getHotGood } from "../../api/good";
 export default {
   props: ["details"],
   data() {
     return {
       active: 1,
-      hotList:null,
-      hotListByWeek:null
+      hotList: null,
+      hotListByWeek: null,
     };
   },
-  mounted(){
+  mounted() {
     this.getHot();
     this.getHotWeek();
   },
-  methods:{
-    async getHot(){
-      const { data } = await getHotGood({type:1});
-      if(data.msg === "操作成功") {
-        this.hotList= data.result;
-      }else{
+  methods: {
+    async getHot() {
+      const { data } = await getHotGood({ type: 1 });
+      if (data.msg === "操作成功") {
+        this.hotList = data.result;
+      } else {
         Message({
-          message:"获取热榜失败"
-        })
+          message: "获取热榜失败",
+        });
       }
     },
-        async getHotWeek(){
-      const { data } = await getHotGood({type:2});
-      if(data.msg === "操作成功") {
-        this.hotListByWeek= data.result;
-      }else{
+    goProduct(id) {
+      this.$router.push("/product/" + id);
+    },
+    async getHotWeek() {
+      const { data } = await getHotGood({ type: 2 });
+      if (data.msg === "操作成功") {
+        this.hotListByWeek = data.result;
+      } else {
         Message({
-          message:"获取热榜失败"
-        })
+          message: "获取热榜失败",
+        });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

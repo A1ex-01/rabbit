@@ -46,7 +46,12 @@
           <span>根据您的购买或浏览记录推荐</span>
         </div>
         <div class="goods">
-          <div class="item" v-for="(v, i) in item.goods" :key="i">
+          <div
+            class="item"
+            v-for="(v, i) in item.goods"
+            :key="i"
+            @click="goproduct(v)"
+          >
             <img :src="v.picture" alt="" />
             <div class="goodsinfo">
               <span>{{ v.name }}</span>
@@ -136,6 +141,9 @@ export default {
       } else {
         this.active = 0;
       }
+    },
+    goproduct(j) {
+      this.$router.push("/product/" + j.id);
     },
     stopPlay() {
       clearInterval(this.autoplay);

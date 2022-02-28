@@ -9,32 +9,33 @@
 import Curmb from "../../components/Curmb.vue";
 import ChooseCommon from "./ChooseCommon.vue";
 
-import { Message } from 'element-ui';
-import {getFilterCategory} from "../../api/category.js"
+import { Message } from "element-ui";
+import { getFilterCategory } from "../../api/category.js";
 export default {
-  data(){
+  data() {
     return {
-      filterList:null
-    }
+      filterList: null,
+    };
   },
-    mounted(){
+  mounted() {
     this.getFilterList();
   },
-  watch:{
-    $route:"getFilterList"
+  watch: {
+    $route: "getFilterList",
   },
-  methods:{
-    async getFilterList(){
+  methods: {
+    async getFilterList() {
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
       const { data } = await getFilterCategory(this.$route.params);
-      if(data.msg === "操作成功") {
+      if (data.msg === "操作成功") {
         this.filterList = data.result;
-      }else{
+      } else {
         Message({
-          message:"获取过滤列表失败",
-          type:"error"
-        })
+          message: "获取过滤列表失败",
+          type: "error",
+        });
       }
-    }
+    },
   },
   components: {
     Curmb,

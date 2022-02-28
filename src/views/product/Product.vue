@@ -3,7 +3,10 @@
     <Curmb></Curmb>
     <ProductShow :goodDetail="goodDetail"></ProductShow>
     <ProductLike></ProductLike>
-    <ProductDetail :details="goodDetail.details" v-if="goodDetail"></ProductDetail>
+    <ProductDetail
+      :details="goodDetail.details"
+      v-if="goodDetail"
+    ></ProductDetail>
   </div>
 </template>
 
@@ -24,15 +27,27 @@ export default {
     Curmb,
     ProductShow,
     ProductLike,
-    ProductDetail
+    ProductDetail,
+  },
+  watch:{
+    $route:"getGoodDetail"
   },
   mounted() {
     this.getGoodDetail();
   },
   methods: {
     async getGoodDetail() {
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
       const { data } = await getGoodDetailInfo(this.$route.params);
       if (data.msg === "操作成功") {
+        localStorage.setItem(
+          "curmb",
+          JSON.stringify({
+            level1: data.result.categories[1].name,
+            level2: data.result.categories[0].name,
+            level3: data.result.name,
+          })
+        );
         this.goodDetail = data.result;
       } else {
         Message({

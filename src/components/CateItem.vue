@@ -4,7 +4,7 @@
       <span v-if="cateitem">-{{ cateitem.name }}-</span>
       <span>温柔柔软，品质之选</span>
       <div class="mask">
-        <span
+        <span @click="goAll"
           >查看全部<i
             class="el-icon-arrow-right"
             style="color: #ccc; margin-left: 5px"
@@ -12,23 +12,32 @@
         ></span>
       </div>
     </div>
-      <!-- <div v-for="item in cateitem.goods" :key="item.id">
+    <!-- <div v-for="item in cateitem.goods" :key="item.id">
         <img :src="item.picture" alt="" />
         <p>{{ item.name }}</p>
         <p>{{ item.desc }}</p>
         <p>￥{{ item.price }}</p>
       </div> -->
-      <GoodCard :cateitem="cateitem.goods"  v-if="cateitem"></GoodCard>
+    <GoodCard :cateitem="cateitem.goods" v-if="cateitem"></GoodCard>
   </div>
 </template>
 
 <script>
-import GoodCard from "./GoodCard.vue"
+import GoodCard from "./GoodCard.vue";
 export default {
   props: ["cateitem"],
-  components:{
-    GoodCard
-  }
+  components: {
+    GoodCard,
+  },
+  methods: {
+    goAll() {
+      console.log(this.cateitem);
+      let curmb = JSON.parse(localStorage.getItem("curmb"));
+      curmb.level2 = this.cateitem.name;
+      localStorage.setItem("curmb", JSON.stringify(curmb));
+      this.$router.push("/category/sub/" + this.cateitem.id);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

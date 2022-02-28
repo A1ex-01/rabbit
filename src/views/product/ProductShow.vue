@@ -9,6 +9,8 @@
             alt=""
             v-for="(item, index) in goodDetail.mainPictures"
             :key="index"
+            :class="{ border: imgIndex == index }"
+            @click="imgchecked(index)"
           />
         </div>
       </div>
@@ -75,29 +77,91 @@
           </ul>
         </div>
       </div>
-      <div class="type">
-        <span>颜色</span>
-        <img
-          :src="item.picture"
-          alt=""
-          v-for="(item, index) in goodDetail.specs[0].values"
-          :key="index"
-        />
+      <div class="type" v-for="(item, index) in goodDetail.specs" :key="index">
+        <span>{{ item.name }}</span>
+        <div class="imgs" v-for="(i, v) in item.values" :key="v">
+          <img
+            :src="i.picture"
+            alt=""
+            v-if="i.picture"
+            :class="{ border: type_1 == v }"
+            @click="type_1 = v"
+          />
+        </div>
+        <div class="size" v-for="(a, b) in item.values" :key="'_' + b">
+          <span
+            v-if="!a.picture"
+            :class="{ border: type_2 == b }"
+            @click="type_2 = b"
+            >{{ a.name }}</span
+          >
+        </div>
       </div>
       <div class="count">
         <span>数量</span>
-        <span>-</span>
-        <span>1</span>
-        <span>+</span>
+        <span @click="count == 0 ? 0 : count--">-</span>
+        <span>{{ count }}</span>
+        <span @click="count++">+</span>
       </div>
-      <span>加入购物车</span>
+      <span @click="addCart">加入购物车</span>
     </div>
   </div>
 </template>
 
 <script>
+import { Message } from "element-ui";
+import { goAddCart } from "../../api/cart";
 export default {
   props: ["goodDetail"],
+  data() {
+    return {
+      imgIndex: 0,
+      type_1: -1,
+      type_2: -1,
+      count: 1,
+    };
+  },
+  methods: {
+    addCart() {
+      this.getSkusId();
+    },
+    async getSkusId() {
+      var first, second;
+      if (this.type_1 != -1 && this.type_2 != -1) {
+        first = this.goodDetail.specs[0].values[this.type_1].name;
+        second = this.goodDetail.specs[1].values[this.type_2].name;
+      }
+      if (this.type_1 != -1 && this.type_2 == -1) {
+        first = this.goodDetail.specs[0].values[this.type_1].name;
+      }
+      if (this.type_2 != -1 && this.type_1 == -1) {
+        second = this.goodDetail.specs[0].values[this.type_2].name;
+      }
+      const data = this.goodDetail.skus.filter((item) => {
+        if (this.type_1 != -1 && this.type_2 != -1) {
+          return (
+            item.specs[0].valueName == first &&
+            item.specs[1].valueName == second
+          );
+        } else {
+          return (
+            item.specs[0].valueName == first ||
+            item.specs[0].valueName == second
+          );
+        }
+      });
+      const res = await goAddCart({ skuId: data[0].id, count: this.count });
+      if (res.data.msg === "操作成功") {
+        Message({
+          message: "添加成功",
+          type: "success",
+        });
+      }
+    },
+    imgchecked(i) {
+      this.imgIndex = i;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -124,20 +188,19 @@ export default {
         font-size: 16px;
         line-height: 28px;
         text-align: center;
-        &:nth-child(1){
-        margin-left: 12px;
-        margin-right: 15px;
+        &:nth-child(1) {
+          margin-left: 12px;
+          margin-right: 15px;
         }
-        &:nth-child(2n){
+        &:nth-child(2n) {
           width: 28px;
           height: 28px;
           border: 1px solid #e4e4e4;
           background-color: #f5f5f5;
         }
-        &:nth-child(3){
+        &:nth-child(3) {
           border: 1px solid #e4e4e4;
           width: 50px;
-
         }
       }
     }
@@ -145,17 +208,33 @@ export default {
       height: 65px;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      .size {
+        display: flex;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+        > span {
+          flex-shrink: 0;
+          border: 1px solid #f5f5f5;
+          padding: 4px 16px;
+        }
+      }
+      > .checked {
+        display: none;
+      }
       span {
         font-size: 14px;
         color: #999;
         margin-right: 15px;
         padding-left: 12px;
       }
-      > img {
-        width: 48px;
-        height: 48px;
-        border: 1px solid #e4e4e4;
-        margin-right: 12px;
+      > .imgs {
+        > img {
+          width: 48px;
+          height: 48px;
+          border: 1px solid #e4e4e4;
+          margin-right: 12px;
+        }
       }
     }
     .goodssale {
@@ -294,5 +373,8 @@ export default {
       }
     }
   }
+}
+.border {
+  border: 1px solid #27ba9b !important;
 }
 </style>

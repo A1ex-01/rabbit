@@ -7,7 +7,7 @@
       <template #right> 查看全部<i class="el-icon-arrow-right"></i> </template>
     </HotTop>
     <div class="main">
-      <div class="special_item" v-for="item in specialList" :key="item.id">
+      <div class="special_item" v-for="item in specialList" :key="item.id" @click="gotop">
         <div class="img">
           <img :src="item.cover" alt="" />
           <div class="mask">
@@ -54,6 +54,14 @@ export default {
         });
       }
     },
+    gotop(){
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
+      this.$notify({
+        title:"提示",
+        message:"该功能暂未开放!",
+        type:"info"
+      })
+    }
   },
   components: {
     HotTop,

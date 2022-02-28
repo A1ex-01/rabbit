@@ -1,6 +1,6 @@
 <template>
   <div class="goods">
-    <div v-for="item in cateitem" :key="item.id" @click="goProduct(item.id, item.name)">
+    <div v-for="item in cateitem" :key="item.id" @click="goProduct(item.id)">
       <img :src="item.picture" alt="" />
       <p>{{ item.name }}</p>
       <p>{{ item.desc }}</p>
@@ -13,10 +13,7 @@
 export default {
   props: ["cateitem"],
   methods:{
-    goProduct(id, name) {
-      let data = JSON.parse(localStorage.getItem("curmb"));
-      data.level3 = name;
-      localStorage.setItem("curmb", JSON.stringify(data));
+    goProduct(id) {
       this.$router.push("/product/"+id);
     }
   }

@@ -11,7 +11,7 @@
       <span @click="left"><i class="iconfont icon-xiangyou"></i></span>
       <div class="container">
         <div class="move" :style="{transform:`translateX(${-(scrollPage-1) * 1070}px)`}">
-          <div class="item" v-for="item in likesList" :key="item.id">
+          <div class="item" v-for="item in likesList" :key="item.id" @click="goProduct(item.id)">
             <img :src="item.picture" alt="" />
             <p style="color:#666">{{ item.name }}</p>
             <p style="text-align:center;margin:10px 0;">￥{{ item.price }}</p>
@@ -47,6 +47,9 @@ export default {
           type: "error",
         });
       }
+    },
+    goProduct(id){
+      this.$router.push("/product/"+id);
     },
     left() {
       this.scrollPage = this.scrollPage == 1 ? this.scrollPage : this.scrollPage - 1;

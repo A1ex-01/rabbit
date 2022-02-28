@@ -3,16 +3,16 @@
     <div class="title">
       <div class="left">{{ goodList.name }}</div>
       <div class="mid">
-        <span v-for="item in goodList.children" :key="item.id">{{
+        <span v-for="item in goodList.children" :key="item.id" @click="goCate(item)">{{
           item.name
         }}</span>
       </div>
       <div class="right">
-        <span>查看全部<i class="el-icon-arrow-right"></i></span>
+        <span @click="goAll">查看全部<i class="el-icon-arrow-right"></i></span>
       </div>
     </div>
     <div class="gooditem">
-      <div class="good_left">
+      <div class="good_left"  @click="goAll">
         <img :src="goodList.picture" alt="" />
         <div class="mask">
           <span>{{ goodList.name }}馆</span>
@@ -26,6 +26,7 @@
           :key="item.id"
           @mouseenter="handleHover(index)"
           @mouseleave="handleLeave"
+          @click="goProduct(item.id)"
         >
           <img :src="item.picture" alt="" />
           <span>{{ item.name }}</span>
@@ -56,6 +57,17 @@ export default {
     handleLeave() {
       this.active = -1;
     },
+    goCate(item){
+      localStorage.setItem("curmb",JSON.stringify({level1:this.goodList.name,level2:item.name,level3:""}))
+      this.$router.push("/category/sub/"+item.id);
+    },
+    goAll(){
+      localStorage.setItem("curmb",JSON.stringify({level1:this.goodList.name,level2:"",level3:""}))
+      this.$router.push("/category/"+this.goodList.id);
+    },
+    goProduct(i){
+      this.$router.push("/product/"+i);
+    }
   },
 };
 </script>

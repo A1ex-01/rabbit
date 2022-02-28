@@ -39,11 +39,18 @@ export default {
     return {
       banner: null,
       active: 0,
+      p1:null
     };
   },
   props: ["cateList"],
   mounted() {
     this.getBanner();
+    this.p1 = setInterval(() => {
+      this.right();
+    }, 3000);
+  },
+  beforeDestroy(){
+    clearInterval(this.p1);
   },
   methods: {
     async getBanner() {

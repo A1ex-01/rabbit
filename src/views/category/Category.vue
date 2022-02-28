@@ -28,6 +28,7 @@ export default {
   },
   methods: {
     async getCategoryList() {
+      document.body.scrollTop = document.documentElement.scrollTop = 0;
       const { data } = await getCategory(this.$route.params);
       if (data.msg === "操作成功") {
         this.cateList = data.result;
