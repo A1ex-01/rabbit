@@ -15,6 +15,9 @@ export default {
     Curmb,
     GoodsCart,
     ProductLike
+  },
+  mounted(){
+    this.$store.dispatch("home/getProductionCount");
   }
 }
 </script>

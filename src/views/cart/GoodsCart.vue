@@ -90,7 +90,13 @@
             @click.prevent="changeAll"
           />全选</label
         >
-        <span>删除商品</span>
+        <el-popconfirm
+          title="你确定要删除所选商品吗？"
+          trigger="click"
+          @confirm="deleteCheckedGood"
+        >
+          <span slot="reference">删除商品</span>
+        </el-popconfirm>
         <span>移入收藏夹</span>
         <span>清空失效商品</span>
       </div>
@@ -169,9 +175,9 @@ export default {
     window.addEventListener("click", (e) => {
       if (this.maskActive != -1) {
         if (
-          (e.target.parentElement.className != "isImg" &&
-            e.target.parentElement.className != "goodRight" &&
-            e.target.parentElement.className != "maskitem") &&
+          e.target.parentElement.className != "isImg" &&
+          e.target.parentElement.className != "goodRight" &&
+          e.target.parentElement.className != "maskitem" &&
           e.target.className != "maskitem"
         ) {
           this.maskActive = -1;
@@ -180,6 +186,17 @@ export default {
     });
   },
   methods: {
+    async deleteCheckedGood() {
+      let list = this.cartList.filter((item) => item.selected);
+      const arr = list.map((item) => item.skuId);
+      console.log(arr);
+      await deleteGoodBySkuId({ ids: arr });
+      Message({
+        message: "删除成功",
+        type: "success",
+      });
+      this.getList();
+    },
     async confirm(item) {
       this.maskActive = -1;
       var one = null;
@@ -243,15 +260,18 @@ export default {
     async addNum(item) {
       console.log(item);
       await modifyGoods({ id: item.skuId, info: { count: item.count + 1 } });
+      this.$store.dispatch("home/getProductionCount");
       this.getList();
     },
     async deleteGood(item) {
       await deleteGoodBySkuId({ ids: [item.skuId] });
+      this.$store.dispatch("home/getProductionCount");
       this.getList();
     },
     async subNum(item) {
       if (item.count > 1) {
         await modifyGoods({ id: item.skuId, info: { count: item.count - 1 } });
+        this.$store.dispatch("home/getProductionCount");
       } else {
         Message({
           message: "数量不能为零",
@@ -270,8 +290,8 @@ export default {
     },
     isAllChoose() {
       const count = this.cartList.filter((item) => !item.selected);
-      if (count.length) {
-        return;
+      if (count.length || !this.cartList.length) {
+        return false;
       } else {
         return true;
       }

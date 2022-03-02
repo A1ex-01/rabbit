@@ -31,6 +31,24 @@ const routes = [
       {
         path:"cart",
         component:() => import("../views/cart/Cart.vue")
+      },
+      {
+        path:"member",
+        component:() => import("../views/myself/Myself.vue"),
+        children:[
+          {
+            path:"/",
+            redirect:"personal"
+          },
+          {
+            path:"personal",
+            component:() => import("../views/myself/Personal.vue")
+          },
+          {
+            path:"order",
+            component:() => import("../views/myself/Order.vue")
+          }
+        ]
       }
     ]
   },

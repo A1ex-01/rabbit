@@ -1,12 +1,12 @@
 <template>
   <div class="top">
-    <span v-if="userInfo"
+    <span v-if="userInfo" @click="goMember"
       ><el-icon><user /></el-icon><i class="iconfont icon-user"></i>{{ userInfo.nickname }}</span
     >
     <span v-else @click="goLogin">请先登录</span>
     <span v-if="userInfo" @click="exitAcciunt">退出登录</span>
     <span v-else>免费注册</span>
-    <span>我的订单</span>
+    <span @click="goOrder">我的订单</span>
     <span>会员中心</span>
     <span>帮助中心</span>
     <span>关于我们</span>
@@ -37,13 +37,19 @@ export default {
     }
   },
   methods: {
+    goMember(){
+      this.$router.push("/member");
+    },
     goLogin() {
       this.$router.push("/login");
+    },
+    goOrder(){
+      this.$router.push({path:"/member/order"})
     },
     exitAcciunt() {
       delCookie("token");
       delCookie("info");
-      this.$router.push("login");
+      this.$router.push({path:"/login"});
     },
   },
 };

@@ -33,22 +33,25 @@ import BottomShow from "./BottomShow.vue";
 // import Cloth from "./Cloth.vue";
 import { Message } from "element-ui";
 import { getCategoryList } from "../../api/home";
+import { getCookie } from "../../utils/cookie";
 export default {
   data() {
     return {
       cateList: null,
       goodList: null,
       show: false,
-      listen:null
+      listen: null,
     };
   },
   mounted() {
     this.getCateList();
+    this.$store.commit("login/getUserInfo", JSON.parse(getCookie("info")));
     // this.getGoods();
     this.listen = window.addEventListener("scroll", this.getScrollY);
+    this.$store.dispatch("home/getProductionCount");
   },
-  destroyed(){
-    window.removeEventListener(this.listen)
+  destroyed() {
+    window.removeEventListener(this.listen);
   },
   methods: {
     getScrollY() {
@@ -113,7 +116,7 @@ export default {
     background-color: white;
     transition: height 0.5s;
     display: none;
-    >.nav{
+    > .nav {
       height: 80px;
     }
   }

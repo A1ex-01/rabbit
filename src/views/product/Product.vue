@@ -34,6 +34,7 @@ export default {
   },
   mounted() {
     this.getGoodDetail();
+    this.$store.dispatch("home/getProductionCount");
   },
   methods: {
     async getGoodDetail() {

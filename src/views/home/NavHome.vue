@@ -43,8 +43,7 @@
   </div>
 </template>
 <script>
-import { Message } from "element-ui";
-import { getCartCount } from "../../api/cart";
+import { mapState } from 'vuex';
 export default {
   props: ["navList"],
   data() {
@@ -52,11 +51,14 @@ export default {
       active: -1,
       p1: null,
       p2: null,
-      count: 0,
     };
   },
   mounted() {
-    this.getCount();
+  },
+  computed:{
+    ...mapState({
+      count:(state)=>state.home.cartNum
+    })
   },
   methods: {
     hoverNav(item) {
@@ -66,17 +68,6 @@ export default {
         this.active = item;
         this.p1 = null;
       }, 200);
-    },
-    async getCount() {
-      const { data } = await getCartCount();
-      if (data.msg === "操作成功") {
-        this.count = data.result.count;
-      } else {
-        Message({
-          message: "获取商品数量失败",
-          type: "error",
-        });
-      }
     },
     leaveNav() {
       clearTimeout(this.p1);
@@ -91,7 +82,11 @@ export default {
       clearTimeout(this.p2);
       this.active = item;
     },
-    goCart(){
+    goCart() {
+      localStorage.setItem(
+        "curmb",
+        JSON.stringify({ level1: "购物车", level2: "", level3: "" })
+      );
       this.$router.push("/cart");
     },
     goHome() {

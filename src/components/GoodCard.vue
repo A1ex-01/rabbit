@@ -27,12 +27,13 @@ export default {
   padding-bottom: 30px;
   box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
   div {
     width: 220px;
     height: 300px;
     padding: 20px 30px;
+    margin-right: 8px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;

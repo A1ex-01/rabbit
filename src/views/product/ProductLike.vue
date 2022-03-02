@@ -49,7 +49,7 @@ export default {
       }
     },
     goProduct(id){
-      this.$router.push("/product/"+id);
+      this.$router.push({path:"/product/"+id});
     },
     left() {
       this.scrollPage = this.scrollPage == 1 ? this.scrollPage : this.scrollPage - 1;

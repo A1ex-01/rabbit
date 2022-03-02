@@ -1,5 +1,5 @@
 import request from "../utils/request";
-
+// 获取购物车总数
 function getCartCount() {
   return request({
     method: "get",
@@ -52,6 +52,15 @@ function deleteGoodBySkuId(data) {
     data:data
   })
 }
+// 获取收藏页面
+
+function getCollectList(data) {
+  return request({
+    method: "GET",
+    url: "/api/member/collect",
+    data:data
+  })
+}
 export {
   getCartCount,
   getCartList,
@@ -59,5 +68,6 @@ export {
   allChooseBtn,
   modifyGoods,
   getTypeBySkuId,
-  deleteGoodBySkuId
+  deleteGoodBySkuId,
+  getCollectList
 }
