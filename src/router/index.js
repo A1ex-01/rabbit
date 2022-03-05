@@ -25,31 +25,47 @@ const routes = [
         component: () => import("../views/category/GoodsChoose.vue")
       },
       {
-        path:"product/:id",
-        component:() => import("../views/product/Product.vue")
+        path: "product/:id",
+        component: () => import("../views/product/Product.vue")
       },
       {
-        path:"cart",
-        component:() => import("../views/cart/Cart.vue")
+        path: "cart",
+        component: () => import("../views/cart/Cart.vue")
       },
       {
-        path:"member",
-        component:() => import("../views/myself/Myself.vue"),
-        children:[
+        path: "member",
+        component: () => import("../views/myself/Myself.vue"),
+        children: [
           {
-            path:"/",
-            redirect:"personal"
+            path: "/",
+            redirect: "personal"
           },
           {
-            path:"personal",
-            component:() => import("../views/myself/Personal.vue")
+            path: "personal",
+            component: () => import("../views/myself/Personal.vue")
           },
           {
-            path:"order",
-            component:() => import("../views/myself/Order.vue")
+            path: "order",
+            component: () => import("../views/myself/Order.vue")
+          },
+          {
+            path:"addr",
+            component:() => import("../views/myself/AddrShow.vue")
+          },
+          {
+            path:"payDetail/:id",
+            component:() => import("../views/pay/PayDetail.vue")
           }
         ]
-      }
+      },
+      {
+        path: "checkout",
+        component: () => import("../views/pay/CheckoutOrder.vue")
+      },
+      {
+        path:"pay/:id",
+        component:() => import("../views/pay/Pay.vue")
+      },
     ]
   },
   {

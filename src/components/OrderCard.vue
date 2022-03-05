@@ -24,11 +24,15 @@
         <p>在线支付</p>
       </div>
       <div class="reset">
-        <p v-if="orderList.orderState == 1" class="pay">立即付款</p>
+        <p v-if="orderList.orderState == 1" class="pay" @click="gopay">
+          立即付款
+        </p>
         <p v-if="orderList.orderState == 3" class="pay">确定收货</p>
-        <p style="margin:10px 0">查看详情</p>
+        <p style="margin: 10px 0" @click="checkDetail">查看详情</p>
         <p v-if="orderList.orderState == 4">再次购买</p>
-        <p v-if="orderList.orderState == 4" style="margin-top:10px">申请售后</p>
+        <p v-if="orderList.orderState == 4" style="margin-top: 10px">
+          申请售后
+        </p>
         <p v-if="orderList.orderState == 1">取消订单</p>
         <p v-if="orderList.orderState == 2">再次购买</p>
       </div>
@@ -38,14 +42,28 @@
 <script>
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   props: ["orderList"],
   filters: {
     filterState(val) {
-      let stateList =  ["待付款", "待发货", "待收货", "待评价", "已完成", "已取消"];
+      let stateList = [
+        "待付款",
+        "待发货",
+        "待收货",
+        "待评价",
+        "已完成",
+        "已取消",
+      ];
       return stateList[val - 1];
+    },
+  },
+  methods: {
+    gopay() {
+      this.$router.push({ path: "/pay/" + this.orderList.id });
+    },
+    checkDetail() {
+      this.$router.push({ path: "/member/payDetail/" + this.orderList.id });
     },
   },
 };
@@ -128,7 +146,7 @@ export default {
       border: 1px solid #f5f5f5;
       padding: 20px;
       box-sizing: border-box;
-      .pay{
+      .pay {
         background-color: #27ba9b;
         width: 100px;
         height: 30px;

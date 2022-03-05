@@ -10,13 +10,23 @@
 </template>
 
 <script>
-import PersonLeft from "./PersonLeft.vue"
+import PersonLeft from "./PersonLeft.vue";
 export default {
-  components:{
-    PersonLeft
+  components: {
+    PersonLeft,
   },
-  mounted(){
+  mounted() {
     this.$store.dispatch("home/getProductionCount");
+  },
+  provide(){
+    return {
+      changeIndex:this.changeIndex
+    }
+  },
+  methods:{
+    changeIndex(i){
+      this.$children[0].changeIndex(i);
+    }
   }
 };
 </script>
@@ -27,12 +37,12 @@ export default {
   background-color: #f5f5f5;
   display: flex;
   align-items: flex-start;
-  >.left{
+  > .left {
     width: 220px;
     background-color: white;
     flex-shrink: 0;
   }
-    >.right{
+  > .right {
     flex: 1;
     margin-left: 20px;
     background-color: #f5f5f5;

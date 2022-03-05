@@ -10,6 +10,23 @@ function getAllOrderList(data) {
     }
   })
 }
+//添加收货地址
+function addAddr(data){
+  return request({
+    method:"post",
+    url:"/api/member/address",
+    data:data
+  })
+}
+// 删除收货地址
+function deleteAddr(id){
+  return request({
+    method:"delete",
+    url:"/api/member/address/" + id
+  })
+}
 export {
-  getAllOrderList
+  getAllOrderList,
+  addAddr,
+  deleteAddr
 }

@@ -65,7 +65,7 @@
         </div>
         <div>
           <span>配送</span>
-          <span>至北京</span>
+          <span>加入购物车后设置</span>
         </div>
         <div>
           <span>服务</span>
@@ -123,7 +123,15 @@ export default {
   },
   methods: {
     addCart() {
-      this.getSkusId();
+      if(this.type_1 != -1 || this.type_2 != -1) {
+        this.getSkusId();
+        this.type_1 = this.type_2 = -1;
+      }else{
+        Message({
+          message:"请选择规格",
+          type:"warning"
+        })
+      }
     },
     async getSkusId() {
       var first, second;

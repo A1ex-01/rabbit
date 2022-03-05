@@ -107,7 +107,7 @@
             >￥{{ total }}</strong
           ></span
         >
-        <span class="pay">下单结算</span>
+        <span class="pay" @click="goCheckout">下单结算</span>
       </div>
     </div>
   </div>
@@ -186,6 +186,10 @@ export default {
     });
   },
   methods: {
+    goCheckout(){
+      localStorage.setItem("curmb",JSON.stringify({level1:"购物车",level2:"填写订单",level3:""}))
+      this.$router.push({path:"/checkout"})
+    },
     async deleteCheckedGood() {
       let list = this.cartList.filter((item) => item.selected);
       const arr = list.map((item) => item.skuId);

@@ -55,10 +55,16 @@ export default {
       if (this.active == "0_0") {
         this.$router.push("/member/personal");
       }
+      if(this.active == "0_4") {
+        this.$router.push("/member/addr");
+      }
       if (this.active == "1_0") {
         this.$router.push("/member/order");
       }
     },
+    changeIndex(i) {
+      this.active = i;
+    }
   },
 };
 </script>

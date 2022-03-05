@@ -43,7 +43,10 @@ export default {
       userInfo: (state) => state.login.info,
     }),
   },
-  mounted() {},
+  mounted() {
+    this.changeIndex("0_0");
+  },
+  inject:["changeIndex"],
   methods: {},
   components: {
     ProductLike,

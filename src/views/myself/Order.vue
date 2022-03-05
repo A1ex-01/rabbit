@@ -32,7 +32,9 @@ import PageNav from "./PageNav.vue";
 export default {
   mounted() {
     this.getOrderList();
+    this.changeIndex("1_0");
   },
+  inject:["changeIndex"],
   data() {
     return {
       active: 0,
