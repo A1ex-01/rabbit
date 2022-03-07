@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <TopHome></TopHome>
+    <keep-alive>
     <NavHome :navList="cateList"></NavHome>
+    </keep-alive>
     <!-- <SwiperHome :tabList="cateList"></SwiperHome>
     <FreshThing></FreshThing>
     <HotGuess></HotGuess>
@@ -45,7 +47,7 @@ export default {
   },
   mounted() {
     this.getCateList();
-    this.$store.commit("login/getUserInfo", JSON.parse(getCookie("info")));
+    this.$store.commit("login/getUserInfo", JSON.stringify(getCookie("info")));
     // this.getGoods();
     this.listen = window.addEventListener("scroll", this.getScrollY);
     this.$store.dispatch("home/getProductionCount");

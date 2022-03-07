@@ -20,8 +20,18 @@ function getGoodList(data) {
     method: "post"
   })
 }
+
+//商品排序
+function GoodSort(data){
+  return request({
+    url:"/api/search/all",
+    method:"post",
+    data:data
+  })
+}
 export {
   getCategory,
   getFilterCategory,
-  getGoodList
+  getGoodList,
+  GoodSort
 }

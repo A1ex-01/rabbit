@@ -1,16 +1,16 @@
 <template>
-  <div class="nav" v-if="navList">
+  <div class="nav">
     <img src="../../assets/img/logo.png" alt="" />
     <ul class="list">
       <li @click="goHome">首页</li>
       <li
-        v-for="(item, index) in navList"
+        v-for="(item, index) in items"
         :key="index"
         @mouseenter="hoverNav(index)"
         @mouseleave="leaveNav()"
-        @click="goLevel1(item)"
+        @click="goLevel1(navList[index])"
       >
-        {{ item.name }}
+        {{ item }}
       </li>
     </ul>
     <div class="search">
@@ -51,6 +51,7 @@ export default {
       active: -1,
       p1: null,
       p2: null,
+      items:["居家","美食","服饰","母婴","个护","严选","数码","运动","杂项"]
     };
   },
   mounted() {
@@ -170,11 +171,10 @@ export default {
     height: 80px;
   }
   .list {
-    width: 800px;
+    width: 100%;
     display: flex;
     li {
-      width: 80px;
-      height: 132px;
+      flex: 1;
       line-height: 132px;
       text-align: center;
       &:hover {

@@ -44,4 +44,17 @@ function getSpecial() {
     method: "get"
   })
 }
-export { getCategoryList, getBannerList, getFreshThiing, getHotList, getBrandList, getGoodsList, getSpecial }
+
+// 获取我的足迹
+function getMyHistory(){
+  return request({
+    method:"get",
+    url:"/api/member/browseHistory",
+    data:{
+      page:1,
+      pageSize:4
+    }
+  })
+}
+
+export { getCategoryList, getBannerList, getFreshThiing, getHotList, getBrandList, getGoodsList, getSpecial,getMyHistory }

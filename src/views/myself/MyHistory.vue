@@ -16,6 +16,7 @@
 import HotTop from "../../components/HotTop.vue";
 import GoodCard from "../../components/GoodCard.vue";
 import { getHotGood } from "../../api/good"
+import { getMyHistory } from "../../api/home"
 export default {
   components: {
     HotTop,
@@ -28,11 +29,16 @@ export default {
   },
   mounted(){
     this.getNeedList();
+    this.getHistory();
   },
   methods:{
     async getNeedList(){
       const {data:{result}} = await getHotGood({type:2});
         this.collectList = result;
+    },
+    async getHistory(){
+      const data = await getMyHistory();
+      console.log(data)
     }
   }
 };
