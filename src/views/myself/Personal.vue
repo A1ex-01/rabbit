@@ -14,7 +14,7 @@
           <i class="iconfont icon-shezhi"></i>
           <span>安全设置</span>
         </div>
-        <div class="info_right_item" @click="$router.push({path:'/member/addr'})">
+        <div class="info_right_item" @click="$router.push('/member/addr')">
           <i class="iconfont icon-position"></i>
           <span>地址管理</span>
         </div>
